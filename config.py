@@ -12,7 +12,5 @@ CHAT_TEMPLATE = """
         {{- message['content'] + '<|eot_id|>\n' }}
     {%- endif %}
 {%- endfor %}
-{%- if add_generation_prompt %}
-    {{- '<|start_header_id|>assistant<|end_header_id|>\n\n' }}
-{%- endif %}
+{{- '<|start_header_id|>assistant<|end_header_id|>\n\n' }}
 """
