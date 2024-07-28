@@ -13,7 +13,6 @@
 # limitations under the License.
 import json
 import requests
-from config import SYSTEM_MESSAGE
 
 tools = [
     {
@@ -41,24 +40,18 @@ tools = [
 
 
 messages = [
-    {"role": "system", "content": "You are a helpful Assistant."},
-    {"role": "user", "content": "What's the weather like in Boston today?"},
-    # {
-    #     "role": "assistant",
-    #     "content": "Do you have a preference for the temperature unit? Celsius or Fahrenheit?",
-    # },
-    # {
-    #     "role": "user",
-    #     "content": "Yes, I would like to get the temperature in Fahrenheit.",
-    # },
+    {"role": "system", "content": "You are a helpful assistant with tool calling capabilities. When you receive a tool call response, use the output to format an answer to the orginal use question."},
+    {"role": "user", "content": "What's the weather like in Kathmandu today?"},
+    {"role": "assistant","content":"","tool_calls": [{'id': 'call_6duDxk', 'type': 'function', 'function': {'name': 'get_current_weather', 'arguments': '{"location": "Kathmandu, NP", "unit": "celsius"}'}}]},
+    {"role": "ipython","tool_call_id": 'call_6duDxk', "name": 'get_current_weather', "content": '{"location": "Kathmandu", "temperature": "32", "unit": "celsius"}'}
 ]
 
 response = requests.post(
     "http://127.0.0.1:8000/v1/chat/completions",
     json={
-        "model": "Groq/Llama-3-Groq-8B-Tool-Use",
+        "model": "meta-llama/Meta-Llama-3.1-8B-Instruct",
         "stream": False,
-        "temperature": 0.0,
+        "temperature": 0.5,
         "max_tokens": 1024,
         "top_p": 0.95,
         "tools": tools,
