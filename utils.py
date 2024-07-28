@@ -49,14 +49,14 @@ You have access to the following functions:
 Think very carefully before calling functions.
 If you choose to call a function ONLY reply in the following format with no prefix or suffix:
 
+Here is an example,
 <function=example_function_name>{{"example_name": "example_value"}}</function>
 
 Reminder:
-- If looking for real time information use relevant functions before falling back to brave_search
-- Function calls MUST follow the specified format, start with <function= and end with </function>
+- Function calls MUST follow the specified format
 - Required parameters MUST be specified
 - Only call one function at a time
-- Put the entire function call reply on one line
+- Put the entire function call reply on one line"
 
 """
     return content
@@ -104,11 +104,11 @@ def extract_tool_calls_from_buffer(buffer):
             tool_calls = [
                 {
                     "id": generate_call_id(),
+                    "type": "function",
                     "function": {
                         "name": function_name,
                         "arguments": json.dumps(args),
                     },
-                    "type": "function",
                 }
             ]
             return tool_calls
