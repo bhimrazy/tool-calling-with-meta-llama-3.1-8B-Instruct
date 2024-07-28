@@ -98,22 +98,21 @@ def extract_tool_calls_from_buffer(buffer):
     joined_buffer = "".join(buffer)
     match = re.search(CUSTOM_TOOL_CALL_PATTERN, joined_buffer)
     if match:
-        tool_name = match.group("function_name")
-        args = match.group("args")
+        function_name, args_string = match.groups()
         try:
-            args = json.loads(args.replace("'", '"'))
+            args = json.loads(args_string)
             tool_calls = [
                 {
                     "id": generate_call_id(),
                     "function": {
-                        "name": tool_name,
+                        "name": function_name,
                         "arguments": json.dumps(args),
                     },
                     "type": "function",
                 }
             ]
             return tool_calls
-        except Exception as e:
-            print("Exception while parsing json query for custom tool call", args, e)
-    else:
-        return None
+        except json.JSONDecodeError as error:
+            print(f"Error parsing function arguments: {error}")
+            return None
+    return None
