@@ -14,7 +14,7 @@ from config import CHAT_TEMPLATE
 from utils import extract_tool_calls_from_buffer, get_tools_prefix_messages
 
 
-class OpenAISpecLitAPI(ls.LitAPI):
+class LlamaToolUseAPI(ls.LitAPI):
     def setup(self, device):
         self.device = device
 
@@ -56,6 +56,7 @@ class OpenAISpecLitAPI(ls.LitAPI):
 
         messages = get_tools_prefix_messages(request.messages, request.tools)
 
+        # print(self.tokenizer.apply_chat_template(messages,tokenize=False))
         model_inputs = self.tokenizer.apply_chat_template(
             messages,
             tokenize=True,
@@ -99,5 +100,5 @@ class OpenAISpecLitAPI(ls.LitAPI):
 
 
 if __name__ == "__main__":
-    server = ls.LitServer(OpenAISpecLitAPI(), spec=ls.OpenAISpec())
+    server = ls.LitServer(LlamaToolUseAPI(), spec=ls.OpenAISpec())
     server.run(port=8000)
