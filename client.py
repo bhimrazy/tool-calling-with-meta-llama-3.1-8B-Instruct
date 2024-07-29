@@ -40,10 +40,31 @@ tools = [
 
 
 messages = [
-    {"role": "system", "content": "You are a helpful assistant with tool calling capabilities. When you receive a tool call response, use the output to format an answer to the orginal use question."},
+    {
+        "role": "system",
+        "content": "You are a helpful assistant with tool calling capabilities. When you receive a tool call response, use the output to format an answer to the orginal use question.",
+    },
     {"role": "user", "content": "What's the weather like in Kathmandu today?"},
-    {"role": "assistant","content":"","tool_calls": [{'id': 'call_6duDxk', 'type': 'function', 'function': {'name': 'get_current_weather', 'arguments': '{"location": "Kathmandu, NP", "unit": "celsius"}'}}]},
-    {"role": "ipython","tool_call_id": 'call_6duDxk', "name": 'get_current_weather', "content": '{"location": "Kathmandu", "temperature": "32", "unit": "celsius"}'}
+    {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+            {
+                "id": "call_6duDxk",
+                "type": "function",
+                "function": {
+                    "name": "get_current_weather",
+                    "arguments": '{"location": "Kathmandu, NP", "unit": "celsius"}',
+                },
+            }
+        ],
+    },
+    {
+        "role": "ipython",
+        "tool_call_id": "call_6duDxk",
+        "name": "get_current_weather",
+        "content": '{"location": "Kathmandu", "temperature": "32", "unit": "celsius"}',
+    },
 ]
 
 response = requests.post(
