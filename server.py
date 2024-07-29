@@ -87,8 +87,9 @@ class LlamaToolUseAPI(ls.LitAPI):
         for output in output_generator:
             buffer.append(output)
             print(output, end="", flush=True)
+
             # check if tool calls
-            if "".join(buffer).startswith("<function"):
+            if "".join(buffer).startswith("<function"):  # or tool_calls:
                 tool_calls = extract_tool_calls_from_buffer(buffer)
                 yield ChatMessage(role="assistant", content="", tool_calls=tool_calls)
                 continue
